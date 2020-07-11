@@ -108,39 +108,45 @@ export default class Quiz extends Component {
             </View>
         )
     }
+    completeQuizView = (score) => {
+        clearLocalNotification()
+            .then(setLocalNotification)
+        return (
+            <View>
+                <Text style={styles.quizComplete}>Quiz Complete</Text>
+                <Text style={styles.score}>Your Score: {score}</Text>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        color="#3e6063"
+                        onPress={this.restrartQuiz}
+                        title="Restart Quiz"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        color="#000"
+                        onPress={this.props.navigation.goBack}
+                        title="Back to Deck"
+                    />
+                </View>
+            </View>
+        )
+    }
     componentDidMount = () => {
         const deckId = this.props.route.params.deckID
         AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY).then((data) => {
             this.setState({ deckData: JSON.parse(data)[deckId] });
         })
-        clearLocalNotification()
-            .then(setLocalNotification)
     }
     render() {
         const { deckData, score, cardNo } = this.state
         return (
             <View style={styles.contentContainer}>
                 {(deckData && deckData.questions.length > 0) ? cardNo < deckData.questions.length ? <View>
-                    {/* <Text style={styles.score}>Your Score: {score}</Text> */}
                     {this.QuizCard(deckData.questions[cardNo])}
                 </View> : <View>
-                        <Text style={styles.quizComplete}>Quiz Complete</Text>
-                        <Text style={styles.score}>Your Score: {score}</Text>
-                        <View style={styles.buttonContainer}>
-                            <Button
-                                color="#3e6063"
-                                onPress={this.restrartQuiz}
-                                title="Restart Quiz"
-                            />
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <Button
-                                color="#000"
-                                onPress={this.props.navigation.goBack}
-                                title="Back to Deck"
-                            />
-                        </View>
-                    </View>
+                    {this.completeQuizView(score)}
+                </View>
                     :
                     <Text>Deck has no cards!</Text>
                 }
