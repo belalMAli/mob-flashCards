@@ -14,6 +14,19 @@ export default class Quiz extends Component {
         userAnswer: '',
         isFlipped: false
     }
+    handleCorrectGuess = () => {
+        let { score, cardNo, userAnswer } = this.state
+        score++
+        cardNo++
+        userAnswer = ''
+        this.setState({ score, cardNo, userAnswer, isFlipped: false })
+    }
+    handleIncorrectGuess = () => {
+        let { cardNo, userAnswer } = this.state
+        cardNo++
+        userAnswer = ''
+        this.setState({ cardNo, userAnswer, isFlipped: false })
+    }
     handleSubmit = () => {
         let { score, cardNo, userAnswer } = this.state
         const cardAnswer = this.state.deckData.questions[cardNo].answer
@@ -28,15 +41,9 @@ export default class Quiz extends Component {
         } else {
             cardNo++
             userAnswer = ''
-            this.setState({ score, cardNo, userAnswer })
+            this.setState({ cardNo, userAnswer })
             return alert(`Wrong answer, The answer is ${cardAnswer}`)
         }
-    }
-    skipQuestion = () => {
-        let { cardNo, userAnswer } = this.state
-        cardNo++
-        userAnswer = ''
-        this.setState({ cardNo, userAnswer, isFlipped: false })
     }
     restrartQuiz = () => {
         this.setState({ score: 0, cardNo: 0, userAnswer: '' })
@@ -63,10 +70,24 @@ export default class Quiz extends Component {
                         </View>
                     }
                     backView={
-                        <View>
+                        <View style={styles.backV}>
                             <Text style={styles.answer}>
                                 Answer is: {card.answer}
                             </Text>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    color="#418762"
+                                    onPress={this.handleCorrectGuess}
+                                    title="I knew it"
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    color="#943b22"
+                                    onPress={this.handleIncorrectGuess}
+                                    title="Bad guess"
+                                />
+                            </View>
                         </View>
                     }
                 />
@@ -78,12 +99,7 @@ export default class Quiz extends Component {
                         title="View Answer"
                     />
                 </View>
-                    : <View style={styles.buttonContainer}>
-                        <Button
-                            onPress={this.skipQuestion}
-                            title="Next Question"
-                        />
-                    </View>}
+                    : null}
                 {!this.state.isFlipped && <Button
                     title='Submit'
                     onPress={this.handleSubmit}
@@ -154,11 +170,20 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         padding: 10
     },
+    twoBtnContainer: {
+        flexDirection: 'row',
+    },
+    halfBtn: {
+        flexBasis: '50%'
+    },
     score: {
         textAlign: 'center',
         color: '#84dbad',
-        fontSize: 19,
+        fontSize: 16,
         marginBottom: 30,
+    },
+    backV: {
+        width: '180%',
     },
     cardsNo: {
         textAlign: 'center',
@@ -177,7 +202,7 @@ const styles = StyleSheet.create({
     },
     quizComplete: {
         color: '#cc938b',
-        fontSize: 19,
+        fontSize: 24,
         marginBottom: 30,
         textAlign: 'center'
     },
