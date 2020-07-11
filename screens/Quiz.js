@@ -110,10 +110,20 @@ export default class Quiz extends Component {
                 </View> : <View>
                         <Text style={styles.quizComplete}>Quiz Complete</Text>
                         <Text style={styles.score}>Your Score: {score}</Text>
-                        <Button
-                            onPress={this.restrartQuiz}
-                            title="Restart Quiz"
-                        />
+                        <View style={styles.buttonContainer}>
+                            <Button
+                                color="#3e6063"
+                                onPress={this.restrartQuiz}
+                                title="Restart Quiz"
+                            />
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button
+                                color="#000"
+                                onPress={this.props.navigation.goBack}
+                                title="Back to Deck"
+                            />
+                        </View>
                     </View>
                     :
                     <Text>Deck has no cards!</Text>
