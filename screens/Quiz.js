@@ -38,6 +38,9 @@ export default class Quiz extends Component {
         userAnswer = ''
         this.setState({ cardNo, userAnswer, isFlipped: false })
     }
+    restrartQuiz = () => {
+        this.setState({ score: 0, cardNo: 0, userAnswer: '' })
+    }
     QuizCard = (card) => {
         return (
             <View>
@@ -107,6 +110,10 @@ export default class Quiz extends Component {
                 </View> : <View>
                         <Text style={styles.quizComplete}>Quiz Complete</Text>
                         <Text style={styles.score}>Your Score: {score}</Text>
+                        <Button
+                            onPress={this.restrartQuiz}
+                            title="Restart Quiz"
+                        />
                     </View>
                     :
                     <Text>Deck has no cards!</Text>
@@ -141,6 +148,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#84dbad',
         fontSize: 19,
+        marginBottom: 30,
     },
     cardsNo: {
         textAlign: 'center',
