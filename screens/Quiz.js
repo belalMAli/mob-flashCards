@@ -42,7 +42,7 @@ export default class Quiz extends Component {
         return (
             <View>
                 <Text style={styles.cardsNo}>
-                    Card No: {this.state.cardNo + 1}
+                    Card No: {this.state.cardNo + 1} of {this.state.deckData.questions.length}
                 </Text>
                 <FlipComponent
                     isFlipped={this.state.isFlipped}
