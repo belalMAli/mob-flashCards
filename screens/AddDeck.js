@@ -26,7 +26,9 @@ class AddDeck extends Component {
         JSON.stringify(newData)
       )
     }
-    this.props.navigation.goBack()
+    this.props.navigation.navigate('single deck', {
+      deckID: title,
+    })
   }
 
   state = {
